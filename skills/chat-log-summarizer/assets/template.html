@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>업무 대화방 정리 - 2026-08-31</title>
+<style>
+  :root {
+    --navy: #1a1a2e;
+    --accent: #2f5fa8;
+    --border: #d8d8de;
+    --text: #1f1f24;
+    --text-muted: #6b6b73;
+    --bg: #ffffff;
+    --row-alt: #f7f7f9;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 32px 24px 64px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+  }
+
+  .page-header h1 {
+    margin: 0 0 6px;
+    font-size: 20px;
+    color: var(--navy);
+  }
+
+  .page-header .meta {
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  .section {
+    margin-top: 36px;
+  }
+
+  .section h2 {
+    font-size: 16px;
+    color: var(--navy);
+    margin: 0 0 4px;
+  }
+
+  .section .desc {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    margin: 0 0 12px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+  }
+
+  caption { display: none; }
+
+  thead th {
+    background: var(--navy);
+    color: #ffffff;
+    text-align: left;
+    font-weight: 600;
+    padding: 10px 12px;
+    border: 1px solid var(--navy);
+    font-size: 13px;
+  }
+
+  tbody td {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    font-size: 13.5px;
+  }
+
+  tbody tr:nth-child(even) {
+    background: var(--row-alt);
+  }
+
+  .col-narrow { width: 140px; }
+  .col-time { width: 120px; white-space: nowrap; }
+
+  .assignee, .deadline {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .unset {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .empty-row td {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 16px;
+  }
+
+  @media (max-width: 640px) {
+    body { padding: 20px 12px 48px; }
+    table, thead, tbody, th, td, tr { display: block; }
+    thead { display: none; }
+    tbody tr {
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    tbody td {
+      border: none;
+      border-bottom: 1px solid var(--border);
+    }
+    tbody td::before {
+      content: attr(data-label);
+      display: block;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 11.5px;
+      margin-bottom: 2px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="page-header">
+    <h1>업무 대화방 정리</h1>
+    <div class="meta">대상 : "프로젝트 A 진행방" 카카오톡 로그 · 정리 범위 : 2026-08-28 ~ 2026-08-31</div>
+  </header>
+
+  <!-- ===================== 1. 결정사항 ===================== -->
+  <section class="section">
+    <h2>결정사항</h2>
+    <p class="desc">대화 중 명확히 합의·확정된 내용만 기재. 제안만 있고 동의가 없으면 남은 이슈로 분류.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>결정내용</th>
+          <th class="col-narrow">관련 발언자</th>
+          <th class="col-time">시점(대략)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="결정내용">2차 오픈 일정을 9/15로 확정. 기존 9/10 안은 QA 기간 부족으로 폐기</td>
+          <td data-label="관련 발언자">김팀장, 이과장</td>
+          <td data-label="시점(대략)">8/28 오전</td>
+        </tr>
+        <tr>
+          <td data-label="결정내용">결제 모듈은 자체 개발 대신 외부 PG사 API 연동으로 방향 결정</td>
+          <td data-label="관련 발언자">박대리, 김팀장</td>
+          <td data-label="시점(대략)">8/29 오후</td>
+        </tr>
+        <tr>
+          <td data-label="결정내용">주간 정기회의를 매주 화요일 오전 10시로 고정</td>
+          <td data-label="관련 발언자">전체 동의</td>
+          <td data-label="시점(대략)">8/30 오전</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================== 2. 남은 이슈 ===================== -->
+  <section class="section">
+    <h2>남은 이슈</h2>
+    <p class="desc">논의됐지만 아직 결론이 나지 않은 항목. 결정 여부가 애매하면 이 표로 분류.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>이슈내용</th>
+          <th class="col-narrow">현재 상태</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="이슈내용">알림톡 발송 비용을 누가 부담할지(고객사 vs 자체)에 대해 이과장과 박대리 의견 대립, 결론 없이 종료</td>
+          <td data-label="현재 상태">다음 회의 안건으로 넘김</td>
+        </tr>
+        <tr>
+          <td data-label="이슈내용">기존 데이터 마이그레이션 스크립트를 재사용할지 새로 짤지 미결정</td>
+          <td data-label="현재 상태">담당자 검토 중, 답변 대기</td>
+        </tr>
+        <tr>
+          <td data-label="이슈내용">디자인 시안 2안 중 최종안 미확정</td>
+          <td data-label="현재 상태">대표 확인 대기</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ===================== 3. 담당자별 할일 ===================== -->
+  <section class="section">
+    <h2>담당자별 할일</h2>
+    <p class="desc">담당자가 대화에서 명시적으로 언급된 액션 아이템만 기재. 담당자·기한 미언급 시 "미정" 표기.</p>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-narrow">담당자</th>
+          <th>할일</th>
+          <th class="col-narrow">기한</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="담당자"><span class="assignee">박대리</span></td>
+          <td data-label="할일">PG사 API 연동 견적 2곳 이상 받아서 공유</td>
+          <td data-label="기한"><span class="deadline">9/3</span></td>
+        </tr>
+        <tr>
+          <td data-label="담당자"><span class="assignee">이과장</span></td>
+          <td data-label="할일">QA 체크리스트 초안 작성</td>
+          <td data-label="기한"><span class="unset">미정</span></td>
+        </tr>
+        <tr>
+          <td data-label="담당자"><span class="unset">미정</span></td>
+          <td data-label="할일">디자인 2안 관련 대표 컨펌 요청</td>
+          <td data-label="기한"><span class="unset">미정</span></td>
+        </tr>
+        <tr>
+          <td data-label="담당자"><span class="assignee">김팀장</span></td>
+          <td data-label="할일">9/15 오픈 일정 관련 고객사 공지 메일 발송</td>
+          <td data-label="기한"><span class="deadline">9/1</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+</body>
+</html>
