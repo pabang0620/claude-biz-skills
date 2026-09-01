@@ -94,6 +94,7 @@ python3 <스킬경로>/assets/analyze.py <CSV경로> --split-date 2026-08-16
 5. **em-dash(가로로 긴 대시 기호) 금지** - 하이픈(-)·가운뎃점(·) 사용, 숫자 중심 개조식 문장.
 6. **폰트** `"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo","Noto Sans KR",sans-serif`.
 7. **기간 비교는 2컬럼 그리드**(`grid-template-columns:1fr 1fr`)로 이번 기간·직전 기간을 나란히 배치하고, 증감은 화려한 색상 대신 ▲▼ 기호 + 텍스트로만 표시한다(색상은 KPI 골드 포인트 용도로만 아껴 쓴다).
+8. **기간 비교에는 막대 그래프를 붙인다** - 숫자 표만으로는 한눈에 안 들어오므로, 매출·주문건수 두 지표는 직전/이번 기간을 가로 막대로 나란히 시각화한다. JS 차트 라이브러리는 쓰지 않고 순수 CSS(`div` 폭 비율)로만 그린다 - 두 값 중 큰 쪽을 100%로 두고 나머지 막대 폭을 비율로 계산. 색상은 직전 기간=회색조(`#c8ccd8`), 이번 기간=네이비(`var(--navy)`)로 고정해 판단적 뉘앙스(좋다/나쁘다) 없이 순수 비교만 나타낸다.
 
 ## 5단계: 검증
 
@@ -159,6 +160,22 @@ python3 <스킬경로>/assets/analyze.py <CSV경로> --split-date 2026-08-16
   .compare-row .v { font-weight:700; }
   .delta-row { margin-top:8px; padding-top:8px; border-top:1px solid var(--line); font-size:9pt; color:var(--muted); }
   .delta-row b { color:var(--ink); }
+
+  /* 기간 비교 막대 그래프 (순수 CSS, 라이브러리 없음) */
+  .bar-chart { margin:14px 0 4px; }
+  .bar-chart .legend { display:flex; gap:16px; font-size:8.8pt; color:var(--muted); margin-bottom:8px; }
+  .bar-chart .legend span::before { content:""; display:inline-block; width:9px; height:9px; margin-right:5px; vertical-align:-1px; }
+  .bar-chart .legend .lg-prev::before { background:#c8ccd8; }
+  .bar-chart .legend .lg-curr::before { background:var(--navy); }
+  .bar-metric { margin:10px 0; }
+  .bar-metric .metric-name { font-size:9.5pt; color:var(--ink); font-weight:700; margin-bottom:5px; }
+  .bar-row { display:flex; align-items:center; gap:8px; margin:4px 0; }
+  .bar-row .bar-tag { width:64px; font-size:8.6pt; color:var(--muted); flex-shrink:0; }
+  .bar-row .bar-track { flex:1; background:#f0f0f0; height:14px; }
+  .bar-row .bar-fill { height:100%; }
+  .bar-row .bar-fill.prev { background:#c8ccd8; }
+  .bar-row .bar-fill.curr { background:var(--navy); }
+  .bar-row .bar-num { width:110px; text-align:right; font-size:9pt; font-weight:700; flex-shrink:0; }
 
   table { width:100%; border-collapse:collapse; margin:6px 0 12px; font-size:9.6pt; table-layout:fixed; }
   th, td { border:1px solid var(--line); padding:7px 8px; vertical-align:top; word-break:break-word; }
@@ -233,6 +250,37 @@ python3 <스킬경로>/assets/analyze.py <CSV경로> --split-date 2026-08-16
       <div class="compare-row"><span>재구매율</span><span class="v">36.9%</span></div>
     </div>
   </div>
+
+  <div class="bar-chart">
+    <div class="legend"><span class="lg-prev">직전 기간</span><span class="lg-curr">이번 기간</span></div>
+    <div class="bar-metric">
+      <div class="metric-name">매출</div>
+      <div class="bar-row">
+        <span class="bar-tag">직전</span>
+        <div class="bar-track"><div class="bar-fill prev" style="width:81.6%"></div></div>
+        <span class="bar-num">19,250,000원</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-tag">이번</span>
+        <div class="bar-track"><div class="bar-fill curr" style="width:100%"></div></div>
+        <span class="bar-num">23,600,000원</span>
+      </div>
+    </div>
+    <div class="bar-metric">
+      <div class="metric-name">주문건수</div>
+      <div class="bar-row">
+        <span class="bar-tag">직전</span>
+        <div class="bar-track"><div class="bar-fill prev" style="width:80.4%"></div></div>
+        <span class="bar-num">172건</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-tag">이번</span>
+        <div class="bar-track"><div class="bar-fill curr" style="width:100%"></div></div>
+        <span class="bar-num">214건</span>
+      </div>
+    </div>
+  </div>
+
   <div class="delta-row">
     <b>증감</b> · 매출 ▲22.6% · 주문건수 ▲24.4% · 평균 주문단가 ▼1.5% · 재구매율 ▲6.1%p
   </div>
@@ -275,6 +323,7 @@ python3 <스킬경로>/assets/analyze.py <CSV경로> --split-date 2026-08-16
 
 - [ ] KPI 칩 5개 == 스크립트 출력 `kpi_total`과 일치
 - [ ] 기간 비교 좌(직전)/우(이번) 배치와 `period_comparison.previous`/`.current`가 일치
+- [ ] 막대 그래프 폭(%)이 실제 값 비율과 일치 (두 값 중 큰 쪽이 100%, 작은 쪽 = 작은값/큰값×100) - 매출·주문건수 두 지표 모두 확인
 - [ ] RFM 세그먼트별 고객 수 합계 == 고유 고객 수(고객식별자 컬럼이 있을 때만 산출, 없으면 "산출 불가" 명시)
 - [ ] 특이사항 콜아웃에 확정 수치(bullet)와 추정 해석(`▶ 추정 해석:`)이 문장으로 분리
 - [ ] em-dash(가로로 긴 대시 기호) 0개, 개조식 문장

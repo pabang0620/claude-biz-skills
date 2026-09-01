@@ -114,6 +114,43 @@
     padding: 16px;
   }
 
+  .topic-block {
+    border-top: 1px solid var(--border);
+    padding: 16px 0;
+  }
+
+  .topic-block:last-child {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .topic-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 0 0 8px;
+  }
+
+  .topic-list {
+    margin: 0;
+    padding-left: 1.2em;
+  }
+
+  .topic-list li {
+    margin: 4px 0;
+    font-size: 13.5px;
+  }
+
+  .topic-list .who {
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .topic-list .estimate::after {
+    content: " (추정)";
+    color: var(--text-muted);
+    font-size: 11.5px;
+  }
+
   @media (max-width: 640px) {
     body { padding: 20px 12px 48px; }
     table, thead, tbody, th, td, tr { display: block; }
@@ -144,6 +181,45 @@
     <h1>업무 대화방 정리</h1>
     <div class="meta">대상 : "프로젝트 A 진행방" 카카오톡 로그 · 정리 범위 : 2026-08-28 ~ 2026-08-31</div>
   </header>
+
+  <!-- ===================== 0. 주제별 대화 ===================== -->
+  <section class="section">
+    <h2>주제별 대화</h2>
+    <p class="desc">시간순이 아니라 논의 주제 단위로 재구성. 같은 주제로 여러 시점에 흩어진 발언도 한 곳에 모은다. 결론이 이미 났는지 여부와 무관하게, 무슨 논의가 오갔는지 맥락을 빠르게 훑기 위한 섹션이다.</p>
+
+    <div class="topic-block">
+      <h3 class="topic-title">2차 오픈 일정</h3>
+      <ul class="topic-list">
+        <li>당초 9/10 오픈안이 제안됐으나 QA 기간이 부족하다는 우려 제기 <span class="who">(이과장)</span></li>
+        <li>대안으로 9/15안이 나왔고 김팀장·이과장 합의로 확정 <span class="who">(8/28 오전)</span></li>
+      </ul>
+    </div>
+
+    <div class="topic-block">
+      <h3 class="topic-title">결제 모듈 구현 방식</h3>
+      <ul class="topic-list">
+        <li>자체 개발 vs 외부 PG사 API 연동 두 가지 안 논의</li>
+        <li>일정상 자체 개발은 무리라는 판단으로 PG사 연동 쪽으로 결정 <span class="who">(박대리, 김팀장 · 8/29 오후)</span></li>
+        <li>다만 PG사 선정 자체는 아직 안 끝남 - 박대리가 견적 받는 중 <span class="estimate">(진행 중으로 보임)</span></li>
+      </ul>
+    </div>
+
+    <div class="topic-block">
+      <h3 class="topic-title">알림톡 발송 비용 부담 주체</h3>
+      <ul class="topic-list">
+        <li>고객사 부담 vs 자체 부담을 놓고 이과장·박대리 의견이 갈림</li>
+        <li>대화 안에서 결론이 나지 않고 종료 - 다음 회의 안건으로 넘어감</li>
+      </ul>
+    </div>
+
+    <div class="topic-block">
+      <h3 class="topic-title">디자인 시안 확정</h3>
+      <ul class="topic-list">
+        <li>2안 중 최종안이 대화 시점까지 확정되지 않음</li>
+        <li>대표 컨펌을 기다리는 중이라는 언급이 있었으나 담당자는 명시되지 않음</li>
+      </ul>
+    </div>
+  </section>
 
   <!-- ===================== 1. 결정사항 ===================== -->
   <section class="section">

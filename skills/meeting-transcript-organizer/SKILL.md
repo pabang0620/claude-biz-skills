@@ -54,11 +54,14 @@ description: 통화 녹취록이나 미팅 메모처럼 길고 비정형인 원�
 - 원본에 직접 나오지 않았지만 문맥상 정리자가 유추한 내용(예: 애매한 표현을 정리자가 해석해서 요약한 경우)은 반드시 **"~로 보임", "~로 추정됨", "(추정)"** 같은 표현을 붙여 사실과 구분한다.
 - 확신이 없는 내용을 사실인 것처럼 단정문으로 적지 않는다. 애매하면 추정 표현을 쓰거나 "확인 필요"로 남긴다.
 
-### 5단계 - 액션아이템 추출
+### 5단계 - 인원별 할일 추출
 
-대화 중 후속 조치로 언급된 내용(예: "~하기로 함", "확인해서 전달하겠다", "다음 주까지 보내주기로")을 모아 **마지막 별도 섹션**으로 분리한다.
-- 담당자나 기한이 원본에 언급됐으면 함께 기록한다.
-- 언급되지 않았으면 빈칸으로 두고 지어내지 않는다.
+대화 중 후속 조치로 언급된 내용(예: "~하기로 함", "확인해서 전달하겠다", "다음 주까지 보내주기로")을 모아 **마지막 별도 섹션**으로 분리하되, 담당자 단위 플랫 표가 아니라 **인원별로 묶어서** 정리한다.
+
+- 담당자가 원본에 언급된 사람마다 하나의 블록을 만들고, 그 사람이 하기로 한 일을 불릿으로 나열한다(한 사람이 여러 개면 같은 블록 안에 여러 불릿).
+- 기한이 원본에 언급됐으면 항목 옆에 함께 기록하고, 언급 없으면 "언급 없음"으로 표기한다(지어내지 않는다).
+- 담당자가 특정되지 않은 항목은 지어내서 아무에게나 배정하지 않고, **"담당자 미정"** 블록을 마지막에 별도로 만들어 모은다.
+- 인원 등장 순서는 원본에서 먼저 언급된 순서를 기본으로 하되, "담당자 미정" 블록은 항상 맨 마지막에 둔다.
 
 ### 6단계 - HTML로 조립
 
@@ -167,26 +170,40 @@ description: 통화 녹취록이나 미팅 메모처럼 길고 비정형인 원�
     font-size: 16px;
     margin: 0 0 14px;
   }
-  table.action-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-  }
-  table.action-table th,
-  table.action-table td {
-    text-align: left;
-    padding: 8px 10px;
+  .person-block {
+    padding: 14px 0;
     border-bottom: 1px solid #d8d8e0;
-    vertical-align: top;
   }
-  table.action-table th {
+  .person-block:last-of-type {
+    border-bottom: none;
+  }
+  .person-name {
+    font-size: 14px;
     font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .person-name.unset {
+    font-weight: 400;
+    font-style: italic;
     color: var(--ink-soft);
-    font-size: 12px;
-    border-bottom: 1px solid var(--line);
+  }
+  ul.person-todo {
+    margin: 0;
+    padding-left: 20px;
+  }
+  ul.person-todo li {
+    margin-bottom: 6px;
+    font-size: 14px;
   }
   .empty-cell {
     color: var(--ink-soft);
+  }
+  .deadline-tag {
+    color: var(--ink-soft);
+    font-size: 12.5px;
+  }
+  .deadline-tag::before {
+    content: "· ";
   }
   footer.doc-footer {
     margin-top: 40px;
@@ -245,33 +262,22 @@ description: 통화 녹취록이나 미팅 메모처럼 길고 비정형인 원�
     </section>
 
     <section class="actions">
-      <h2>액션아이템</h2>
-      <table class="action-table">
-        <thead>
-          <tr>
-            <th>내용</th>
-            <th>담당자</th>
-            <th>기한</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>추가 페이지 3개에 대한 별도 견적서 작성</td>
-            <td>담당자</td>
-            <td><span class="empty-cell">언급 없음</span></td>
-          </tr>
-          <tr>
-            <td>참고 사이트(A, B) 반영한 디자인 시안 2개 준비</td>
-            <td>담당자</td>
-            <td>다음 미팅 전</td>
-          </tr>
-          <tr>
-            <td>모바일 앱 연동이 이번 범위에 포함되는지 재확인</td>
-            <td><span class="empty-cell">언급 없음</span></td>
-            <td><span class="empty-cell">언급 없음</span></td>
-          </tr>
-        </tbody>
-      </table>
+      <h2>인원별 할일</h2>
+
+      <div class="person-block">
+        <h3 class="person-name">담당자</h3>
+        <ul class="person-todo">
+          <li>추가 페이지 3개에 대한 별도 견적서 작성 <span class="deadline-tag empty-cell">언급 없음</span></li>
+          <li>참고 사이트(A, B) 반영한 디자인 시안 2개 준비 <span class="deadline-tag">다음 미팅 전</span></li>
+        </ul>
+      </div>
+
+      <div class="person-block">
+        <h3 class="person-name unset">담당자 미정</h3>
+        <ul class="person-todo">
+          <li>모바일 앱 연동이 이번 범위에 포함되는지 재확인 <span class="deadline-tag empty-cell">언급 없음</span></li>
+        </ul>
+      </div>
     </section>
 
     <footer class="doc-footer">
@@ -285,7 +291,7 @@ description: 통화 녹취록이나 미팅 메모처럼 길고 비정형인 원�
 ### 템플릿 적용 시 유의사항
 
 - `.estimate`, `.speaker.unknown` 클래스는 반드시 실제로 원본에 없는 추정·불확실 내용에만 붙인다. 확정된 사실에 습관적으로 붙이지 않는다.
-- 액션아이템 표에서 담당자·기한이 원본에 없으면 `empty-cell` 클래스로 "언급 없음"을 표기하고 빈칸을 지어내지 않는다.
-- 섹션(`section.topic`) 개수와 각 섹션의 불릿 개수는 원본 분량에 맞춰 자유롭게 조정한다.
+- 인원별 할일에서 기한이 원본에 없으면 `deadline-tag empty-cell` 클래스로 "언급 없음"을 표기하고 지어내지 않는다. 담당자가 특정되지 않은 항목은 아무 인원 블록에나 끼워 넣지 말고 반드시 "담당자 미정" 블록(맨 마지막)으로 모은다.
+- 섹션(`section.topic`) 개수와 각 섹션의 불릿 개수, 인원 블록(`.person-block`) 개수는 원본 분량에 맞춰 자유롭게 조정한다.
 - 카드형 배경색, 그라데이션, 원형·파스텔 배지, 중첩 box-shadow는 쓰지 않는다. 구분은 항상 라인(`border-top`/`border-bottom`)으로만 한다.
 - 포인트 색상을 넣지 않는다. 네이비(`--ink`)와 그 옅은 톤(`--ink-soft`)만 사용한다.
